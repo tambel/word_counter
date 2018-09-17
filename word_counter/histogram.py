@@ -12,7 +12,7 @@ def view_histogram(data):
     matplotlib.rcParams['toolbar'] = 'None'  # disabling toolbar
     # creating figure.
     fig, ax = plt.subplots(1, 1)
-    fig.set_size_inches(10, 5)
+    fig.set_size_inches(12, 8)
     plt.subplots_adjust(bottom=0.2)
     fig.canvas.set_window_title('Word count.')
 
