@@ -12,7 +12,7 @@ def view_histogram(data):
     matplotlib.rcParams['toolbar'] = 'None'  # disabling toolbar
     # creating figure.
     fig, ax = plt.subplots(1, 1)
-    fig.set_size_inches(10, 5)
+    fig.set_size_inches(12, 8)
     plt.subplots_adjust(bottom=0.2)
     fig.canvas.set_window_title('Word count.')
 
@@ -69,9 +69,5 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('path')
     args = parser.parse_args()
-    try:
-        counter = count_files_in_directory(args.path)
-    except Exception as e:
-        logging.error(e)
-    else:
-        view_histogram(counter)
+    counter = count_files_in_directory(args.path)
+    view_histogram(counter)
