@@ -31,6 +31,10 @@ def enumerate_files(path: str):
 
 
 def count_words_in_zip(path):
+    """
+    Read all .txt files from zip-file and count words.
+    If nested file found, read it recursively.
+    """
     counter = Counter()
     with ZipFile(path, 'r') as file:
         for child in file.filelist:
@@ -38,8 +42,11 @@ def count_words_in_zip(path):
                 continue
 
             if child.filename.endswith('.zip'):
-                text = BytesIO(file.read(child.filename))
-                counter.update(count_words_in_zip(text))
+                # we need to read nested zip file data and
+                # open it as bytes stream
+                nested_zip_data = file.read(child.filename)
+                nested_zip_stream = BytesIO(nested_zip_data)
+                counter.update(count_words_in_zip(nested_zip_stream))
             elif child.filename.endswith('.txt'):
                 text = file.read(child.filename)
                 counter.update(
@@ -48,3 +55,18 @@ def count_words_in_zip(path):
 
     return counter
 
+
+def count_files_in_directory(path):
+    counter = Counter()
+    for file_path in enumerate_files(path):
+        if file_path.endswith('.txt'):
+            with open(file_path, 'r') as file:
+                text = file.read()
+                counter.update(
+                    count_words_in_text(text)
+                )
+            continue
+        counter.update(
+            count_words_in_zip(file_path)
+        )
+    return counter

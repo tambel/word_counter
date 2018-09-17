@@ -1,3 +1,5 @@
+import json
+from collections import Counter
 from os.path import dirname, join
 
 from pyfakefs.fake_filesystem import FakeFilesystem, FakeOsModule
@@ -47,6 +49,16 @@ def test_file_enumeration(mocker):
 
 
 def test_word_count(generate_text):
+    text = 'hello world'
+
+    assert count_words_in_text(text) == Counter({'hello': 1, 'world': 1})
+
+    # empty string
+    assert count_words_in_text('') == Counter({})
+
+    # zero words text
+    assert count_words_in_text(' a 1 . "/;') == Counter({})
+
     random_text1, counter1 = generate_text(100, 1000)
     random_text2, counter2 = generate_text(100, 1000)
 
@@ -56,3 +68,14 @@ def test_word_count(generate_text):
     assert result1 == counter1
     assert result2 == counter2
 
+
+def test_count_directory():
+    """
+    Apply word counting to test samples and check with pre-counted counter.
+    """
+    samples_path = join(dirname(__file__), 'samples')
+    with open(join(samples_path, 'check_list.txt'), 'r') as file:
+        check_counter = Counter(json.load(file))
+    counter = count_files_in_directory(join(samples_path, 'folder'))
+
+    assert counter == check_counter
