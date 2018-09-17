@@ -58,7 +58,10 @@ def count_words_in_zip(path):
 
 def count_files_in_directory(path):
     counter = Counter()
-    for file_path in enumerate_files(path):
+    found_files = tuple(enumerate_files(path))
+    if not found_files:
+        raise FileNotFoundError('No valid files found.')
+    for file_path in found_files:
         if file_path.endswith('.txt'):
             with open(file_path, 'r') as file:
                 text = file.read()
@@ -69,4 +72,6 @@ def count_files_in_directory(path):
         counter.update(
             count_words_in_zip(file_path)
         )
+    if not counter:
+        raise RuntimeError('No words found.')
     return OrderedDict(counter.most_common())

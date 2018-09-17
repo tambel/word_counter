@@ -1,4 +1,6 @@
 import argparse
+import matplotlib
+import logging
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
@@ -7,7 +9,7 @@ from word_counter.count import count_files_in_directory
 
 def view_histogram(data):
     labels, values = zip(*data.items())
-
+    matplotlib.rcParams['toolbar'] = 'None'  # disabling toolbar
     # creating figure.
     fig, ax = plt.subplots(1, 1)
     fig.set_size_inches(10, 5)
@@ -63,8 +65,13 @@ def main():
     """
     Entry point for console command - count_words_in_directory
     """
+    logging.basicConfig(format='%(levelname)s: %(message)s')
     parser = argparse.ArgumentParser()
     parser.add_argument('path')
     args = parser.parse_args()
-    counter = count_files_in_directory(args.path)
-    view_histogram(counter)
+    try:
+        counter = count_files_in_directory(args.path)
+    except Exception as e:
+        logging.error(e)
+    else:
+        view_histogram(counter)
