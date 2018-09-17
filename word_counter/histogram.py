@@ -1,13 +1,12 @@
+import argparse
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.widgets import Button
 
-from collections import Counter
+from word_counter.count import count_files_in_directory
 
 
-def view_histogram(counter):
-    sorted_counter = Counter(dict(counter.most_common()))
-    labels, values = zip(*sorted_counter.items())
+def view_histogram(data):
+    labels, values = zip(*data.items())
 
     # creating figure.
     fig, ax = plt.subplots(1, 1)
@@ -17,14 +16,14 @@ def view_histogram(counter):
 
     step_size = 10
     current = 0
-    size = len(sorted_counter)
+    size = len(data)
 
     # update figure.
     def update():
         ax.clear()
         sub_label = labels[current: current + step_size]
         sub_values = values[current: current + step_size]
-        indices = np.arange(len(sub_label))
+        indices = [i for i in range(10)]
 
         ax.bar(indices, sub_values)
 
@@ -58,3 +57,14 @@ def view_histogram(counter):
 
     update()
     plt.show()
+
+
+def main():
+    """
+    Entry point for console command - count_words_in_directory
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path')
+    args = parser.parse_args()
+    counter = count_files_in_directory(args.path)
+    view_histogram(counter)
