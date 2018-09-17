@@ -1,7 +1,7 @@
 import os
 import re
 from os.path import isdir, join
-from collections import Counter
+from collections import Counter, OrderedDict
 from zipfile import ZipFile
 from io import BytesIO
 
@@ -38,7 +38,7 @@ def count_words_in_zip(path):
     counter = Counter()
     with ZipFile(path, 'r') as file:
         for child in file.filelist:
-            if child.is_dir():
+            if child.filename.endswith('/'):
                 continue
 
             if child.filename.endswith('.zip'):
@@ -69,4 +69,4 @@ def count_files_in_directory(path):
         counter.update(
             count_words_in_zip(file_path)
         )
-    return counter
+    return OrderedDict(counter.most_common())

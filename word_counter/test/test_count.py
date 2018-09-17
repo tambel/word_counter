@@ -45,7 +45,7 @@ def test_file_enumeration(mocker):
         mocker.patch('word_counter.count.{}'.format(name), f)
 
     paths = list(enumerate_files('/'))
-    assert paths == files_checklist
+    assert Counter(paths) == Counter(files_checklist)
 
 
 def test_word_count(generate_text):
