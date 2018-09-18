@@ -10,9 +10,16 @@ def count_words_in_text(text):
     """
     Search words with regex and count with Counter.
     """
+    # search all words bigger than two letters including:
+    # - one-word letters: a, I, O
+    # - words with apostrophe
+    re_str = r"\b[aAIO]\b|\b[a-zA-Z]+(?:')[a-zA-Z]{1,2}\b|\b[a-zA-Z]{2,}\b"
+
+    # https://en.wiktionary.org/wiki/Category:English_one-letter_words
+    one_letter_capitalized_words = ['I', 'O']
     return Counter(
-        # find all words with length bigger than 2.
-        word.lower() for word in re.findall('\\w{2,}', text)
+        word.lower() if word not in one_letter_capitalized_words else word
+        for word in re.findall(re_str, text)
     )
 
 

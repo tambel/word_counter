@@ -57,7 +57,16 @@ def test_word_count(generate_text):
     assert count_words_in_text('') == Counter({})
 
     # zero words text
-    assert count_words_in_text(' a 1 . "/;') == Counter({})
+    assert count_words_in_text(' i 1 f3 . "/;') == Counter({})
+
+    text = "' `s yea' 'don't -yeah no- ice-cream i I O Open  it's a goody-1y day olly's free2play a A o i ice"
+
+    result = count_words_in_text(text)
+    assert result == Counter({
+        'yea': 1, "don't": 1, 'yeah': 1, 'no': 1, 'ice': 2, 'cream': 1,
+        'I': 1, "O": 1, 'open': 1, "it's": 1, 'a': 3, 'goody': 1, 'day': 1,
+        "olly's": 1
+    })
 
     random_text1, counter1 = generate_text(100, 1000)
     random_text2, counter2 = generate_text(100, 1000)
