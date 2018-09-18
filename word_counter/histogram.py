@@ -24,7 +24,7 @@ def view_histogram(data):
         ax.clear()
         sub_label = labels[current: current + step_size]
         sub_values = values[current: current + step_size]
-        indices = [i for i in range(10)]
+        indices = [i for i in range(len(sub_values))]
 
         ax.bar(indices, sub_values)
 
