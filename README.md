@@ -1,10 +1,12 @@
-# Files Parser App
+# Word Counter App
+
+#### It is a python program that counts words in all ```.txt``` files in given directory including ```.txt``` files in ```zip``` archives.
+#### NOTE: project counts all words including single letter words and words with apostrophes, also it discards words with digits.
+
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/tambel/word_counter/master/screenshot.jpg">
 </p>
-
-It is a python program that counts words in all ```.txt``` files in given directory including ```.txt``` files in ```zip``` archives.
 
 
 ## How to install
